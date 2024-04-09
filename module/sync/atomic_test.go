@@ -1,3 +1,4 @@
+// package main 这是一个main包
 package main
 
 import (
@@ -7,7 +8,8 @@ import (
 	"time"
 )
 
-func main() {
+// Test_atomic 用于测试atomic
+func Test_atomic() {
 	var ch atomic.Value
 	ch.Store(make(chan string, 10))
 	var wg sync.WaitGroup
@@ -66,3 +68,11 @@ func main() {
 
 	wg.Wait()
 }
+
+// main 这是一个main函数
+func main() {
+	Test_atomic()
+}
+
+// atomic.Value可以存储任何值，使用store存储
+// 使用load获取做类型断言后可以直接对其并发操作，不用加锁
