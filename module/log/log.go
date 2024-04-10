@@ -24,12 +24,13 @@ var zeroPartsOrder = []string{
 }
 
 var (
-	logPath        string = "/var/log/media_gate.log" //日志文件
-	archivePath    string = "/var/log/backup"         //归档路径
-	rotateFileSize int64  = 10 << 20                  //日志文件大小
+	logLevel       string = "info"             //日志等级
+	logPath        string = "./media_gate.log" //日志文件
+	archivePath    string = "./backup"         //归档路径
+	rotateFileSize int64  = 10 << 20           //日志文件大小
 )
 
-var file *os.File
+var file *os.File //文件句柄
 var output = zerolog.ConsoleWriter{
 	TimeFormat: time.DateTime,
 	PartsOrder: zeroPartsOrder,
@@ -163,7 +164,7 @@ func checkFile() bool {
 
 func Init() {
 
-	//TODO 从配置文件获取日志文件的路径、归档路径、文件大小,判断参数有效性
+	//TODO: 从配置文件获取日志文件的路径、归档路径、文件大小,判断参数有效性
 
 	if !initFile() {
 		os.Exit(1)
@@ -212,8 +213,13 @@ func Init() {
 	//初始化全局log.Logger
 	Logger = zerolog.New(output).With().Caller().Timestamp().Logger()
 
-	//设置log level
-	zerolog.SetGlobalLevel(zerolog.InfoLevel)
+	if l, err := zerolog.ParseLevel(logLevel); err != nil {
+		//设置log level
+		zerolog.SetGlobalLevel(zerolog.InfoLevel)
+		Logger.Error().Err(err).Msg("logLevel config args invalid. set level=info.")
+	} else {
+		zerolog.SetGlobalLevel(l)
+	}
 
 }
 

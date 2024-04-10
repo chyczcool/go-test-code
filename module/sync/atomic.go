@@ -1,5 +1,5 @@
 // package main 这是一个main包
-package main
+package sync
 
 import (
 	"fmt"
@@ -67,11 +67,6 @@ func Test_atomic() {
 	}(ch)
 
 	wg.Wait()
-}
-
-// main 这是一个main函数
-func main() {
-	Test_atomic()
 }
 
 // atomic.Value可以存储任何值，使用store存储
