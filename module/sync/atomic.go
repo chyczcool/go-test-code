@@ -69,5 +69,10 @@ func Test_atomic() {
 	wg.Wait()
 }
 
+// Test_atomic_struct 用于测试自定义变量等非基础变量
+func Test_atomic_struct() {
+
+}
+
 // atomic.Value可以存储任何值，使用store存储
 // 使用load获取做类型断言后可以直接对其并发操作，不用加锁
