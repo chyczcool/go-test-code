@@ -8,12 +8,14 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/rs/zerolog"
 )
 
 var Logger = zerolog.New(os.Stderr).With().Timestamp().Logger()
+var logMutex sync.Mutex
 
 // 日志解析字段顺序
 var zeroPartsOrder = []string{
@@ -24,17 +26,11 @@ var zeroPartsOrder = []string{
 }
 
 var (
-	logLevel       string = "info"             //日志等级
-	logPath        string = "./media_gate.log" //日志文件
-	archivePath    string = "./backup"         //归档路径
-	rotateFileSize int64  = 10 << 20           //日志文件大小
+	logLevel       string = "info"   //日志等级
+	rotateFileSize int64  = 10 << 20 //日志文件大小默认10MB
 )
 
 var file *os.File //文件句柄
-var output = zerolog.ConsoleWriter{
-	TimeFormat: time.DateTime,
-	PartsOrder: zeroPartsOrder,
-}
 
 func initFile() bool {
 	// 检查日志文件是否存在
@@ -103,6 +99,8 @@ func createLogFile() bool {
 
 // 关闭并重新创建日志文件
 func closeAndCreateLogFile() bool {
+	//先关闭文件
+	output.Close()
 	err := os.Rename(logPath, archivePath+"/"+logPath+"."+time.Now().Format("20060102150405"))
 	if err != nil {
 		fmt.Println("Error:", err)
@@ -131,6 +129,8 @@ func updateLogger() bool {
 }
 
 func checkFile() bool {
+	logMutex.Lock()
+	defer logMutex.Unlock()
 	// 检查日志文件是否存在
 	_, err := os.Stat(logPath)
 
@@ -151,7 +151,7 @@ func checkFile() bool {
 	}
 	fileSize := fileInfo.Size()
 
-	// 如果日志文件大小大于 10MB，则关闭并重新创建文件
+	// 判断是否需要更新文件
 	if fileSize > rotateFileSize {
 		if closeAndCreateLogFile() {
 			return updateLogger()
@@ -213,14 +213,18 @@ func Init() {
 	//初始化全局log.Logger
 	Logger = zerolog.New(output).With().Caller().Timestamp().Logger()
 
-	if l, err := zerolog.ParseLevel(logLevel); err != nil {
+	SetLevel(logLevel)
+
+}
+
+func SetLevel(level string) {
+	if l, err := zerolog.ParseLevel(level); err != nil {
 		//设置log level
 		zerolog.SetGlobalLevel(zerolog.InfoLevel)
 		Logger.Error().Err(err).Msg("logLevel config args invalid. set level=info.")
 	} else {
 		zerolog.SetGlobalLevel(l)
 	}
-
 }
 
 // Output duplicates the global logger and sets w as its output.
