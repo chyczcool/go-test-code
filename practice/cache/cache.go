@@ -120,15 +120,15 @@ func (cache *MemAche) SetMaxMemory(size string) bool {
 }
 
 // 将Value写入缓存
-func (cache *MemAche) Set(key string, val any, expire time.Duration) bool {
-	switch val.
+// func (cache *MemAche) Set(key string, val any, expire time.Duration) bool {
+// 	switch val.
 
-	if cache.nowBytes +  > cache.maxBytes {
+// 	if cache.nowBytes +  > cache.maxBytes {
 
-	}
+// 	}
 
-	return true
-}
+// 	return true
+// }
 
 // 根据key值获取value
 func (cache *MemAche) Get(key string) (any, bool) {
@@ -136,13 +136,21 @@ func (cache *MemAche) Get(key string) (any, bool) {
 }
 
 // 删除key值
-func (cache *MemAche) Del(key string) bool
+func (cache *MemAche) Del(key string) bool {
+	return false
+}
 
 // 判断key值是否存在
-func (cache *MemAche) Exists(key string) bool
+func (cache *MemAche) Exists(key string) bool {
+	return false
+}
 
 // 清空所有key
-func (cache *MemAche) Flush() bool
+func (cache *MemAche) Flush() bool {
+	return false
+}
 
 // 获取缓存中所有key的数量
-func (cache *MemAche) Keys() int64
+func (cache *MemAche) Keys() int64 {
+	return 0
+}
