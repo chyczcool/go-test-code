@@ -9,8 +9,8 @@ import (
 )
 
 var (
-	logPath     string = "./media_gate.log" //日志文件
-	archivePath string = "./backup"         //归档路径
+	logPath     string = "./test.log" //日志文件
+	archivePath string = "./backup"   //归档路径
 )
 
 // win 关闭颜色输出
