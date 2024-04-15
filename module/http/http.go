@@ -13,7 +13,7 @@ var MyClient = http.Client{
 }
 
 func GetBaidu() {
-	rsp, err := MyClient.Get("http://www.baidu.com")
+	rsp, err := MyClient.Get("http://baidu.com")
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -25,5 +25,8 @@ func GetBaidu() {
 		fmt.Println(err)
 		return
 	}
-	fmt.Println("rsp body ->\n", body)
+	for k, v := range rsp.Header {
+		fmt.Println(k, ": ", v)
+	}
+	fmt.Println("rsp body ->\n", string(body))
 }
