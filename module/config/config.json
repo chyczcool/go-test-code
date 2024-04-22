@@ -1,0 +1,19 @@
+{
+    "log":{
+        "level": "debug",
+        "file": "./test.log",
+        "backup_dir": "./backup",
+        "rotate_size": "10MB"
+    },
+
+    
+
+    "go2rtc":{
+        "bin": "go2rtc",
+        "config": "./module/config"
+    },
+
+    "test": {
+        "int": 123
+    }
+}

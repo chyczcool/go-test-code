@@ -1,0 +1,34 @@
+XADD：
+XRANGE：读取一个范围内的所有条目
+XRERANGE：倒着 读取一个范围内的所有条目
+XLEN: 获取条目数
+一、基本命令:
+    XADD: 向streams中添加条目
+        example: [
+            # 向race:france中添加条目， *代表条目id自动递增
+            - XADD race:france * rider Castilla speed 29.9 position 1 location_id 2
+        ]
+
+
+二、消费者组:
+    XGROUP: 用于创建、销毁和管理消费者组。
+        example: [
+            # 创建一个france_riders消费者组，并只将读取从现在开始的新消息。$代表最大的ID
+            - XGROUP CREATE race:france france_riders $   
+
+            # MKSTREAM表示自动创建streams
+            - XGROUP CREATE race:italy italy_riders $ MKSTREAM  
+        ]
+
+
+    XREADGROUP: 通过使用者组从流中读取数据。
+        example:[
+            # ">" 代表到目前为止从未传递给其他使用者的消息
+            - XREADGROUP GROUP italy_riders Alice COUNT 1 STREAMS race:italy >
+        ]
+    
+    XACK 是允许使用者将挂起的消息标记为已正确处理的命令。
+
+    XINFO 
+        - XINFO GROUPS <stream-name>  //返回streams的消费者组列表
+        - XINFO HELP //查看更多可查看的信息
