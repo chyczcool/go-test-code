@@ -13,11 +13,11 @@ import (
 	"github.com/tanpopoycz/go-test-code/module/reflect"
 )
 
-func test_log() {
+func Test_log() {
 	log.Test_log()
 }
 
-func test_path() {
+func Test_path() {
 	// 定义一个文件路径
 	filePath := "../xxx/ss/example."
 
@@ -34,7 +34,7 @@ func test_path() {
 	fmt.Println("Extension:", extension)
 }
 
-func test_config() {
+func Test_config() {
 	config.Init("config", "json", "./module/config")
 	fmt.Printf("log.level = %s\n", config.Test_viper_getstr("log.level"))
 	fmt.Printf("log.file = %s\n", config.Test_viper_getstr("log.file"))
@@ -48,7 +48,7 @@ func test_config() {
 
 }
 
-func test_exec() {
+func Test_exec() {
 	cmd := exec.Command("./test")
 	fmt.Printf("Running command and waiting for it to finish...\n")
 	err := cmd.Run()
@@ -62,11 +62,11 @@ type T struct {
 
 var dst_t = T{1, 2}
 
-func test_struct(t *T) {
+func Test_struct(t *T) {
 	t = &dst_t
 }
 
-func getLocalIP() ([]string, error) {
+func GetLocalIP() ([]string, error) {
 	var ipList []string
 	addrs, err := net.InterfaceAddrs()
 	if err != nil {
@@ -99,7 +99,7 @@ func getLocalIP() ([]string, error) {
 	return ipList, nil
 }
 
-func test_context() {
+func Test_context() {
 	// 创建一个空的背景 Context
 	ctx, cancel := context.WithCancel(context.Background())
 
@@ -147,9 +147,10 @@ func NewStreams() *Streams {
 	//s.Groups = make([]Group, 0)
 }
 
-type tt struct {
-	i int
-	j string
+type Tt struct {
+	I int
+	J string
+	k int
 }
 
 func main() {
@@ -169,10 +170,33 @@ func main() {
 	// fmt.Println(*s)
 	// fmt.Println(s.Groups)
 
-	t := tt{i: 1, j: "123"}
+	t := Tt{I: 100, J: "abc"}
 	m, err := reflect.StructToMap(t)
-	if err != nil {
-		fmt.Println(m)
+	if err == nil {
+		fmt.Println("m=", m)
+	} else {
+		fmt.Println(err)
 	}
 
+	var t1 Tt
+	if err := reflect.MapToStruct(m, &t1); err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Println("t1=", t1)
+
+	// reflect.Test()
+
+	// t := testjson.TestJsonStrcut{FieldA: "this is a test", FieldB: 123}
+
+	// b, err := t.JsonString()
+	// if err != nil {
+	// 	return
+	// }
+
+	// fmt.Println(string(b))
+
+	//testsync.TestMutiWriteChan()
+	fmt.Printf("%t", true)
 }
