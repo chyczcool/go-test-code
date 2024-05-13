@@ -8,9 +8,9 @@ import (
 	"path/filepath"
 	"time"
 
+	"github.com/tanpopoycz/go-test-code/module/bulitin"
 	"github.com/tanpopoycz/go-test-code/module/config"
 	"github.com/tanpopoycz/go-test-code/module/log"
-	"github.com/tanpopoycz/go-test-code/module/reflect"
 )
 
 func Test_log() {
@@ -147,56 +147,41 @@ func NewStreams() *Streams {
 	//s.Groups = make([]Group, 0)
 }
 
+type MyInterface interface {
+	fmt.Stringer
+	MyString() string
+}
+
 type Tt struct {
+	MyInterface
+
 	I int
 	J string
-	k int
+}
+
+func (t Tt) String() string {
+	return fmt.Sprintf("Tt{I:%d, J:%s}", t.I, t.J)
+}
+
+func (t Tt) MyString() string {
+	return fmt.Sprintf("MyString: Tt{I:%d, J:%s}", t.I, t.J)
 }
 
 func main() {
-	// test_config()
-	//test_path()
-	//test_exec()
-	//l, _ := getLocalIP()
-	//fmt.Printf("ipList = %v, len= %d", l, len(l))
+	// t := Tt{I: 100, J: "abc"}
 
-	//fmt.Println(thirdlib.IsProcessRunning("gopls.exe"))
-	//test_context()
-
-	// s := NewStreams()
-	// s.Name = "stream1"
-	// g := Group{Name: "g1"}
-	// s.Groups = append(s.Groups, g)
-	// fmt.Println(*s)
-	// fmt.Println(s.Groups)
-
-	t := Tt{I: 100, J: "abc"}
-	m, err := reflect.StructToMap(t)
-	if err == nil {
-		fmt.Println("m=", m)
-	} else {
-		fmt.Println(err)
-	}
-
-	var t1 Tt
-	if err := reflect.MapToStruct(m, &t1); err != nil {
-		fmt.Println(err)
-		return
-	}
-
-	fmt.Println("t1=", t1)
-
-	// reflect.Test()
-
-	// t := testjson.TestJsonStrcut{FieldA: "this is a test", FieldB: 123}
-
-	// b, err := t.JsonString()
-	// if err != nil {
-	// 	return
+	// fmt.Printf("%t", true)
+	// var i any = &t
+	// v, ok := i.(MyInterface)
+	// if ok {
+	// 	fmt.Printf("t --> %s", v)
+	// 	fmt.Print(v.MyString())
+	// } else {
+	// 	fmt.Printf("t --> null")
 	// }
 
-	// fmt.Println(string(b))
+	//json.Test()
 
-	//testsync.TestMutiWriteChan()
-	fmt.Printf("%t", true)
+	bulitin.PrintType()
+
 }
