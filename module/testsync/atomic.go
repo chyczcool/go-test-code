@@ -1,5 +1,5 @@
 // package main 这是一个main包
-package sync
+package testsync
 
 import (
 	"fmt"

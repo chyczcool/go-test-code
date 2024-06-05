@@ -8,15 +8,16 @@ import (
 	"path/filepath"
 	"time"
 
+	"github.com/tanpopoycz/go-test-code/module/bulitin"
 	"github.com/tanpopoycz/go-test-code/module/config"
 	"github.com/tanpopoycz/go-test-code/module/log"
 )
 
-func test_log() {
+func Test_log() {
 	log.Test_log()
 }
 
-func test_path() {
+func Test_path() {
 	// 定义一个文件路径
 	filePath := "../xxx/ss/example."
 
@@ -33,7 +34,7 @@ func test_path() {
 	fmt.Println("Extension:", extension)
 }
 
-func test_config() {
+func Test_config() {
 	config.Init("config", "json", "./module/config")
 	fmt.Printf("log.level = %s\n", config.Test_viper_getstr("log.level"))
 	fmt.Printf("log.file = %s\n", config.Test_viper_getstr("log.file"))
@@ -47,7 +48,7 @@ func test_config() {
 
 }
 
-func test_exec() {
+func Test_exec() {
 	cmd := exec.Command("./test")
 	fmt.Printf("Running command and waiting for it to finish...\n")
 	err := cmd.Run()
@@ -61,11 +62,11 @@ type T struct {
 
 var dst_t = T{1, 2}
 
-func test_struct(t *T) {
+func Test_struct(t *T) {
 	t = &dst_t
 }
 
-func getLocalIP() ([]string, error) {
+func GetLocalIP() ([]string, error) {
 	var ipList []string
 	addrs, err := net.InterfaceAddrs()
 	if err != nil {
@@ -98,7 +99,7 @@ func getLocalIP() ([]string, error) {
 	return ipList, nil
 }
 
-func test_context() {
+func Test_context() {
 	// 创建一个空的背景 Context
 	ctx, cancel := context.WithCancel(context.Background())
 
@@ -146,6 +147,24 @@ func NewStreams() *Streams {
 	//s.Groups = make([]Group, 0)
 }
 
+type MyInterface interface {
+	fmt.Stringer
+	MyString() string
+}
+
+type Tt struct {
+	MyInterface
+
+	I int
+	J string
+}
+
+func (t Tt) String() string {
+	return fmt.Sprintf("Tt{I:%d, J:%s}", t.I, t.J)
+}
+
+func (t Tt) MyString() string {
+	return fmt.Sprintf("MyString: Tt{I:%d, J:%s}", t.I, t.J)
 type tt struct {
 	fmt.Stringer
 
@@ -158,12 +177,21 @@ func (t *tt) String() string {
 }
 
 func main() {
-	// test_config()
-	//test_path()
-	//test_exec()
-	//l, _ := getLocalIP()
-	//fmt.Printf("ipList = %v, len= %d", l, len(l))
+	// t := Tt{I: 100, J: "abc"}
 
+	// fmt.Printf("%t", true)
+	// var i any = &t
+	// v, ok := i.(MyInterface)
+	// if ok {
+	// 	fmt.Printf("t --> %s", v)
+	// 	fmt.Print(v.MyString())
+	// } else {
+	// 	fmt.Printf("t --> null")
+	// }
+
+	//json.Test()
+
+	bulitin.PrintType()
 	//fmt.Println(thirdlib.IsProcessRunning("gopls.exe"))
 	//test_context()
 
