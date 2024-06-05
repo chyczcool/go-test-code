@@ -165,6 +165,8 @@ func (t Tt) String() string {
 
 func (t Tt) MyString() string {
 	return fmt.Sprintf("MyString: Tt{I:%d, J:%s}", t.I, t.J)
+}
+
 type tt struct {
 	fmt.Stringer
 
