@@ -10,7 +10,6 @@ import (
 
 	"github.com/tanpopoycz/go-test-code/module/config"
 	"github.com/tanpopoycz/go-test-code/module/log"
-	"github.com/tanpopoycz/go-test-code/module/reflect"
 )
 
 func test_log() {
@@ -148,8 +147,14 @@ func NewStreams() *Streams {
 }
 
 type tt struct {
+	fmt.Stringer
+
 	i int
 	j string
+}
+
+func (t *tt) String() string {
+	return fmt.Sprintf("tt: i=%v, j=%v", t.i, t.j)
 }
 
 func main() {
@@ -170,9 +175,10 @@ func main() {
 	// fmt.Println(s.Groups)
 
 	t := tt{i: 1, j: "123"}
-	m, err := reflect.StructToMap(t)
-	if err != nil {
-		fmt.Println(m)
-	}
+	// m, err := reflect.StructToMap(t)
+	// if err != nil {
+	// 	fmt.Println(m)
+	// }
 
+	fmt.Printf("%v", t.String())
 }
