@@ -1,0 +1,35 @@
+//ffmpeg版本
+ffmpeg version 4.3.2-static https://johnvansickle.com/ffmpeg/  Copyright (c) 2000-2021 the FFmpeg developers
+built with gcc 8 (Debian 8.3.0-6)
+
+//获取视频文件的总时长
+ffprobe -v quiet -show_format -of default=noprint_wrappers=1:nokey=0  -i demo.mp4 |grep duration | cut -d '=' -f 2
+
+//视频文件生成媒体切片和m3u8文件
+ffmpeg -hide_banner -i demo.mp4 -c:v copy -c:a copy -hls_base_url /media/hls/segment.ts?file=demo.mp4/90-120/ -hls_segment_filename /tmp/mediagate/demo.mp4/90-120/segment_%02d.ts -hls_time 5 -preset ultrafast -copyts -start_at_zero  -f hls -hls_playlist_type vod  /tmp/mediagate/demo.mp4/90-120/playlist.m3u8 -y
+
+//重新编码切片
+ffmpeg 
+-ss 90 
+-i demo.mp4 
+-c:a copy 
+-c:v libx264 
+-preset ultrafast 
+-f hls 
+-force_key_frames "expr:gte(t,n_forced*5)" 
+-hls_base_url /media/hls/segment.ts?file=demo.mp4/0-30/ 
+-copyts 
+-start_at_zero 
+-hls_flags omit_endlist 
+-hls_list_size 0 
+-hls_segment_filename /tmp/mediagate/demo.mp4/0-30/segment_%02d.ts 
+-hls_time 5 
+-t 120 
+-start_number 0  
+/tmp/mediagate/demo.mp4/0-30/playlist.m3u8 -y
+
+//ffprobe 获取mp4文件索引
+ffprobe -v error -select_streams v:0 -show_entries frame=pkt_pts_time,pkt_pos,pkt_size,pict_type -of csv=p=1 bilibili.mp4 > bilibili.csv
+
+//为每个播放列表生成init.mp4文件
+ffmpeg -hide_banner -i /tmp/mediagate/demo.mp4/copy/segment_00.ts -c:v copy -c:a copy /tmp/mediagate/demo.mp4/copy/init.mp4
