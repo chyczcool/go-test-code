@@ -172,21 +172,6 @@ func ModifyArray(a [3][]string) [3][]string {
 }
 
 func main() {
-	// t := Tt{I: 100, J: "abc"}
-
-	// fmt.Printf("%t", true)
-	// var i any = &t
-	// v, ok := i.(MyInterface)
-	// if ok {
-	// 	fmt.Printf("t --> %s", v)
-	// 	fmt.Print(v.MyString())
-	// } else {
-	// 	fmt.Printf("t --> null")
-	// }
-
-	//json.Test()
-
-	//bulitin.PrintType()
 
 	complexArray1 := [3][]string{
 		[]string{"d", "e", "f"},
