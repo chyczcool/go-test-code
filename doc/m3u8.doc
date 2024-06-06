@@ -1,0 +1,7 @@
+参考：https://www.rfc-editor.org/rfc/rfc8216.html
+
+Basic Tag                   必选        含义                        
+-----                       -----       -----
+#EXTM3U                     yes         m3u8文件第一行，标志此为m3u8文件开始
+#EXT-X-VERSION:<n>          yes         协议兼容版本
+

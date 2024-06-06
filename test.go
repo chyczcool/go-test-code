@@ -8,7 +8,6 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/tanpopoycz/go-test-code/module/bulitin"
 	"github.com/tanpopoycz/go-test-code/module/config"
 	"github.com/tanpopoycz/go-test-code/module/log"
 )
@@ -167,6 +166,11 @@ func (t Tt) MyString() string {
 	return fmt.Sprintf("MyString: Tt{I:%d, J:%s}", t.I, t.J)
 }
 
+func ModifyArray(a [3][]string) [3][]string {
+	a[0] = []string{"modify success!"}
+	return a
+}
+
 func main() {
 	// t := Tt{I: 100, J: "abc"}
 
@@ -182,6 +186,16 @@ func main() {
 
 	//json.Test()
 
-	bulitin.PrintType()
+	//bulitin.PrintType()
+
+	complexArray1 := [3][]string{
+		[]string{"d", "e", "f"},
+		[]string{"g", "h", "i"},
+		[]string{"j", "k", "l"},
+	}
+
+	complexArray1 = ModifyArray(complexArray1)
+
+	fmt.Println(complexArray1)
 
 }

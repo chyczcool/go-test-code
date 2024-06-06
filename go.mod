@@ -31,6 +31,7 @@ require (
 )
 
 require (
+	github.com/grafov/m3u8 v0.12.0
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.19 // indirect
 	github.com/shirou/gopsutil v2.21.11+incompatible
